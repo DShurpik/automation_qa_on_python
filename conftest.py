@@ -2,8 +2,9 @@ import pytest
 from selenium import webdriver
 
 
-@pytest.fixture(scope='function')
-def chrome_driver():
+@pytest.fixture(autouse=True, scope='function')
+def driver(request):
     driver = webdriver.Chrome()
+    request.cls.driver = driver
     yield driver
     driver.quit()
