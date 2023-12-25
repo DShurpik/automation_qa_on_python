@@ -1,8 +1,10 @@
+import random
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from locators.elements_page_locators import TextBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
 from basePages.base_page import BasePage
 
 
@@ -35,5 +37,42 @@ class TextBoxPage(BasePage):
     def click_submit_btn(self):
         self.driver.find_element(*self.locators.SUBMIT_BTN).click()
         return self
+
+class CheckBoxPage(BasePage):
+    locators = CheckBoxPageLocators()
+
+    def open_all_checkboxes(self):
+        self.driver.find_element(*self.locators.EXPAND_ALL_BTN).click()
+
+    def click_random_item(self):
+        item_list = self.driver.find_elements(*self.locators.ITEM_LIST)
+        item = item_list[random.randint(1, 15)]
+        item.click()
+
+    # Use value from locators.fields.CheckBoxPageValues for clicking different checkboxes
+    def click_on_checkbox(self, field):
+        self.driver.find_element(By.XPATH, f'//span[text()="{field}"]').click()
+
+    def get_result_string(self):
+        result = self.driver.find_element(*self.locators.RESULT).text
+        data_res = result.split(',')
+        print(data_res)
+        return data_res
+
+    def get_checked_checkboxes(self):
+        checked_list = self.driver.find_elements(*self.locators.CHECKED_ITEMS)
+        data = []
+        for box in checked_list:
+            title_item = box.find_element(*self.locators.TITLE_ITEM)
+            data.append(title_item.text)
+        return str(data).replace(' ', '').replace('doc', '').replace('.', '').lower()
+
+    def get_output_result(self):
+        result_list = self.driver.find_elements(*self.locators.OUTPUT_RESULT)
+        data = []
+        for item in result_list:
+            data.append(item.text)
+        return str(data).replace(' ', '').lower()
+
 
 
