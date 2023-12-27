@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 from basePages.base_page import BasePage
 
 
@@ -73,6 +73,18 @@ class CheckBoxPage(BasePage):
         for item in result_list:
             data.append(item.text)
         return str(data).replace(' ', '').lower()
+
+
+class RadioButtonPage(BasePage):
+    locators = RadioButtonPageLocators()
+
+    def click_on_radio_btn(self, field):
+        self.driver.find_element(By.XPATH, f'//label[text()="{field}"]').click()
+
+    def get_result(self):
+        result = self.driver.find_element(*self.locators.RESULT_FIELD).text
+        return result
+
 
 
 

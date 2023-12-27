@@ -1,19 +1,14 @@
 import time
 
-from basePages.base_page import BasePage
 from basePages.base_test import BaseTest
 from config_reader.config import ConfigProvider
 from generator.generator import person_generator
-from locators.fields import Fields, CheckBoxPageValues
-from pages.elements_page import TextBoxPage, CheckBoxPage
+from locators.fields import Fields, CheckBoxPageValues, RadioButtonPageValues
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
 from locators.elements_page_locators import TextBoxPageLocators
 
 
 class Tests(BaseTest):
-
-    def test_open_page(self, driver):
-        base_page = BasePage(driver)
-        base_page.open('https://www.google.com/')
 
     def test_text_box_hard_code(self, driver):
         text_box_page = TextBoxPage(driver)
@@ -28,8 +23,10 @@ class Tests(BaseTest):
 
         result_full_name = text_box_page.get_created_value(TextBoxPageLocators.CREATED_NAME_FIELD).split(':')[1]
         result_email = text_box_page.get_created_value(TextBoxPageLocators.CREATED_EMAIL_FIELD).split(':')[1]
-        result_current_address = text_box_page.get_created_value(TextBoxPageLocators.CREATED_CURRENT_ADDRESS_FIELD).split(':')[1]
-        result_permanent_address = text_box_page.get_created_value(TextBoxPageLocators.CREATED_PERMANENT_ADDRESS_FIELD).split(':')[1]
+        result_current_address = \
+            text_box_page.get_created_value(TextBoxPageLocators.CREATED_CURRENT_ADDRESS_FIELD).split(':')[1]
+        result_permanent_address = \
+            text_box_page.get_created_value(TextBoxPageLocators.CREATED_PERMANENT_ADDRESS_FIELD).split(':')[1]
 
         assert result_full_name == "D S", f"Expected 'D S', but got {result_full_name}"
         assert result_email == "Ds@ds.ru", f"Expected 'D S', but got {result_email}"
@@ -51,9 +48,9 @@ class Tests(BaseTest):
         result_full_name = text_box_page.get_created_value(TextBoxPageLocators.CREATED_NAME_FIELD).split(':')[1]
         result_email = text_box_page.get_created_value(TextBoxPageLocators.CREATED_EMAIL_FIELD).split(':')[1]
         result_current_address = \
-        text_box_page.get_created_value(TextBoxPageLocators.CREATED_CURRENT_ADDRESS_FIELD).split(':')[1]
+            text_box_page.get_created_value(TextBoxPageLocators.CREATED_CURRENT_ADDRESS_FIELD).split(':')[1]
         result_permanent_address = \
-        text_box_page.get_created_value(TextBoxPageLocators.CREATED_PERMANENT_ADDRESS_FIELD).split(':')[1]
+            text_box_page.get_created_value(TextBoxPageLocators.CREATED_PERMANENT_ADDRESS_FIELD).split(':')[1]
 
         assert result_full_name == "Dzmitry S", f"Expected 'D S', but got {result_full_name}"
         assert result_email == "ds@gmail.com", f"Expected 'D S', but got {result_email}"
@@ -133,4 +130,26 @@ class Tests(BaseTest):
 
         assert result1 == result2
 
-        time.sleep(1)
+    def test_radio_button_yes(self, driver):
+        radio_button_page = RadioButtonPage(driver)
+
+        radio_button_page.open('http://85.192.34.140:8081/')
+        radio_button_page.navigate_to(Fields.ELEMENTS)
+        radio_button_page.navigate_to_in_menu_list(Fields.RADIO_BUTTON)
+
+        checked_field = RadioButtonPageValues.YES
+        radio_button_page.click_on_radio_btn(checked_field)
+
+        assert checked_field == radio_button_page.get_result()
+
+    def test_radio_button_impressive(self, driver):
+        radio_button_page = RadioButtonPage(driver)
+
+        radio_button_page.open('http://85.192.34.140:8081/')
+        radio_button_page.navigate_to(Fields.ELEMENTS)
+        radio_button_page.navigate_to_in_menu_list(Fields.RADIO_BUTTON)
+
+        checked_field = RadioButtonPageValues.IMPRESSIVE
+        radio_button_page.click_on_radio_btn(checked_field)
+
+        assert checked_field == radio_button_page.get_result()
