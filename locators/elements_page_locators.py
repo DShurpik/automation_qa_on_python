@@ -23,5 +23,22 @@ class CheckBoxPageLocators:
     TITLE_ITEM = (By.XPATH, ".//ancestor::span[@class='rct-text']")
     OUTPUT_RESULT = (By.XPATH, '//span[@class="text-success"]')
 
+
 class RadioButtonPageLocators:
     RESULT_FIELD = (By.XPATH, '//span[@class="text-success"]')
+
+
+class WebTablesLocators:
+    # add person information
+    ADD_BTN = (By.ID, 'addNewRecordButton')
+    FIRST_NAME_FIELD = (By.ID, 'firstName')
+    LAST_NAME_FIELD = (By.ID, 'lastName')
+    EMAIL_FIELD = (By.ID, 'userEmail')
+    AGE_FIELD = (By.ID, "age")
+    SALARY_FIELD = (By.ID, 'salary')
+    DEPARTMENT_FIELD = (By.ID, 'department')
+    SUBMIT_BTN = (By.ID, 'submit')
+
+    # table
+    FULL_PERSONS_LIST = (By.XPATH, '//div[@class="rt-tr-group"]')
+

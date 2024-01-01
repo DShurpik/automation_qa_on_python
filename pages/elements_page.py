@@ -4,7 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
+     WebTablesLocators
 from basePages.base_page import BasePage
 
 
@@ -84,6 +85,41 @@ class RadioButtonPage(BasePage):
     def get_result(self):
         result = self.driver.find_element(*self.locators.RESULT_FIELD).text
         return result
+
+
+class WebTables(BasePage):
+    locators = WebTablesLocators()
+
+    def click_add_button(self):
+        self.driver.find_element(*self.locators.ADD_BTN).click()
+
+    def send_first_name_field(self, name):
+        self.driver.find_element(*self.locators.FIRST_NAME_FIELD).send_keys(name)
+
+    def send_last_name_field(self, last_name):
+        self.driver.find_element(*self.locators.LAST_NAME_FIELD).send_keys(last_name)
+
+    def send_email_field(self, email):
+        self.driver.find_element(*self.locators.EMAIL_FIELD).send_keys(email)
+
+    def send_age_field(self, age):
+        self.driver.find_element(*self.locators.AGE_FIELD).send_keys(age)
+
+    def send_salary_field(self, salary):
+        self.driver.find_element(*self.locators.SALARY_FIELD).send_keys(salary)
+
+    def send_department_field(self, department_name):
+        self.driver.find_element(*self.locators.DEPARTMENT_FIELD).send_keys(department_name)
+
+    def click_submit_btn(self):
+        self.driver.find_element(*self.locators.SUBMIT_BTN).click()
+
+    def check_new_added_person(self):
+        persons_list = self.driver.find_elements(*self.locators.FULL_PERSONS_LIST)
+        data = []
+        for item in persons_list:
+            data.append(item.text.splitlines())
+        return data
 
 
 

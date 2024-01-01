@@ -4,7 +4,7 @@ from basePages.base_test import BaseTest
 from config_reader.config import ConfigProvider
 from generator.generator import person_generator
 from locators.fields import Fields, CheckBoxPageValues, RadioButtonPageValues
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTables
 from locators.elements_page_locators import TextBoxPageLocators
 
 
@@ -153,3 +153,31 @@ class Tests(BaseTest):
         radio_button_page.click_on_radio_btn(checked_field)
 
         assert checked_field == radio_button_page.get_result()
+
+    def test_web_table_add_person(self, driver):
+        web_tables_page = WebTables(driver)
+        person = next(person_generator())
+
+        person_first_name = person.first_name
+        person_last_name = person.last_name
+        person_email = person.email
+        person_age = person.age
+        person_salary = person.salary
+        person_department = person.department
+        person_data = [person_first_name, person_last_name, str(person_age), person_email, str(person_salary), person_department]
+
+        web_tables_page.open('http://85.192.34.140:8081/')
+        web_tables_page.navigate_to(Fields.ELEMENTS)
+        web_tables_page.navigate_to_in_menu_list(Fields.WEB_TABLES)
+
+        web_tables_page.click_add_button()
+        web_tables_page.send_first_name_field(person_first_name)
+        web_tables_page.send_last_name_field(person_last_name)
+        web_tables_page.send_email_field(person_email)
+        web_tables_page.send_age_field(person_age)
+        web_tables_page.send_salary_field(person_salary)
+        web_tables_page.send_department_field(person_department)
+        web_tables_page.click_submit_btn()
+        result_table = web_tables_page.check_new_added_person()
+
+        assert person_data in result_table
