@@ -1,9 +1,11 @@
 import random
 
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from generator.generator import person_generator
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
      WebTablesLocators
 from basePages.base_page import BasePage
@@ -114,12 +116,35 @@ class WebTables(BasePage):
     def click_submit_btn(self):
         self.driver.find_element(*self.locators.SUBMIT_BTN).click()
 
-    def check_new_added_person(self):
+    def check_person(self):
         persons_list = self.driver.find_elements(*self.locators.FULL_PERSONS_LIST)
         data = []
         for item in persons_list:
             data.append(item.text.splitlines())
         return data
+
+    def check_search_person(self):
+        persons_list = self.driver.find_elements(*self.locators.FULL_PERSONS_LIST)
+        data = []
+        for item in persons_list:
+            data.append(item.text.splitlines())
+        return data
+
+    def send_search_parameter(self, name):
+        self.driver.find_element(*self.locators.SEARCH_FIELD).send_keys(name)
+
+    def click_edit_button(self):
+        self.driver.find_element(*self.locators.EDIT_BTN).click()
+
+    def update_person_inf(self):
+        new_person_info = next(person_generator())
+        age = new_person_info.age
+        self.driver.find_element(*self.locators.AGE_FIELD).clear()
+        self.driver.find_element(*self.locators.AGE_FIELD).send_keys(age)
+        return str(age)
+
+    def click_delete_btn(self):
+        self.driver.find_element(*self.locators.DELETE_BTN).click()
 
 
 

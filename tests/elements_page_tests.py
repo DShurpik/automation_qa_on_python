@@ -164,7 +164,8 @@ class Tests(BaseTest):
         person_age = person.age
         person_salary = person.salary
         person_department = person.department
-        person_data = [person_first_name, person_last_name, str(person_age), person_email, str(person_salary), person_department]
+        person_data = [person_first_name, person_last_name, str(person_age), person_email, str(person_salary),
+                       person_department]
 
         web_tables_page.open('http://85.192.34.140:8081/')
         web_tables_page.navigate_to(Fields.ELEMENTS)
@@ -178,6 +179,113 @@ class Tests(BaseTest):
         web_tables_page.send_salary_field(person_salary)
         web_tables_page.send_department_field(person_department)
         web_tables_page.click_submit_btn()
-        result_table = web_tables_page.check_new_added_person()
+        result_table = web_tables_page.check_person()
 
         assert person_data in result_table
+
+    def test_search_person(self, driver):
+        web_tables_page = WebTables(driver)
+        person = next(person_generator())
+
+        person_first_name = person.first_name
+        person_last_name = person.last_name
+        person_email = person.email
+        person_age = person.age
+        person_salary = person.salary
+        person_department = person.department
+
+        web_tables_page.open('http://85.192.34.140:8081/')
+        web_tables_page.navigate_to(Fields.ELEMENTS)
+        web_tables_page.navigate_to_in_menu_list(Fields.WEB_TABLES)
+
+        web_tables_page.click_add_button()
+        web_tables_page.send_first_name_field(person_first_name)
+        web_tables_page.send_last_name_field(person_last_name)
+        web_tables_page.send_email_field(person_email)
+        web_tables_page.send_age_field(person_age)
+        web_tables_page.send_salary_field(person_salary)
+        web_tables_page.send_department_field(person_department)
+        web_tables_page.click_submit_btn()
+        time.sleep(1)
+
+        web_tables_page.send_search_parameter(person_first_name)
+
+        person_data = [person_first_name, person_last_name, str(person_age), person_email, str(person_salary),
+                       person_department]
+        result_table = web_tables_page.check_person()
+
+        assert person_data in result_table
+
+    def test_edit_created_person(self, driver):
+        web_tables_page = WebTables(driver)
+        person = next(person_generator())
+
+        person_first_name = person.first_name
+        person_last_name = person.last_name
+        person_email = person.email
+        person_age = person.age
+        person_salary = person.salary
+        person_department = person.department
+
+        web_tables_page.open('http://85.192.34.140:8081/')
+        web_tables_page.navigate_to(Fields.ELEMENTS)
+        web_tables_page.navigate_to_in_menu_list(Fields.WEB_TABLES)
+
+        web_tables_page.click_add_button()
+        web_tables_page.send_first_name_field(person_first_name)
+        web_tables_page.send_last_name_field(person_last_name)
+        web_tables_page.send_email_field(person_email)
+        web_tables_page.send_age_field(person_age)
+        web_tables_page.send_salary_field(person_salary)
+        web_tables_page.send_department_field(person_department)
+        web_tables_page.click_submit_btn()
+        time.sleep(1)
+
+        web_tables_page.send_search_parameter(person_first_name)
+        web_tables_page.click_edit_button()
+        person_data = [person_first_name, person_last_name, web_tables_page.update_person_inf(), person_email, str(person_salary),
+                       person_department]
+
+        web_tables_page.click_submit_btn()
+
+        time.sleep(3)
+
+        row = web_tables_page.check_person()
+        assert person_data in row
+
+    def test_delete_person(self, driver):
+        web_tables_page = WebTables(driver)
+        person = next(person_generator())
+
+        person_first_name = person.first_name
+        person_last_name = person.last_name
+        person_email = person.email
+        person_age = person.age
+        person_salary = person.salary
+        person_department = person.department
+
+        web_tables_page.open('http://85.192.34.140:8081/')
+        web_tables_page.navigate_to(Fields.ELEMENTS)
+        web_tables_page.navigate_to_in_menu_list(Fields.WEB_TABLES)
+
+        web_tables_page.click_add_button()
+        web_tables_page.send_first_name_field(person_first_name)
+        web_tables_page.send_last_name_field(person_last_name)
+        web_tables_page.send_email_field(person_email)
+        web_tables_page.send_age_field(person_age)
+        web_tables_page.send_salary_field(person_salary)
+        web_tables_page.send_department_field(person_department)
+        web_tables_page.click_submit_btn()
+        time.sleep(1)
+
+        web_tables_page.send_search_parameter(person_first_name)
+
+        person_data = [person_first_name, person_last_name, str(person_age), person_email, str(person_salary),
+                       person_department]
+
+        web_tables_page.click_delete_btn()
+
+        result_table = web_tables_page.check_person()
+
+        assert person_data not in result_table
+

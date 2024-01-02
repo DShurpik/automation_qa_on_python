@@ -41,4 +41,7 @@ class WebTablesLocators:
 
     # table
     FULL_PERSONS_LIST = (By.XPATH, '//div[@class="rt-tr-group"]')
+    SEARCH_FIELD = (By.ID, 'searchBox')
+    EDIT_BTN = (By.XPATH, '//span[@title="Edit"]')
+    DELETE_BTN = (By.XPATH, '//span[@title="Delete"]')
 
