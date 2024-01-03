@@ -45,3 +45,9 @@ class WebTablesLocators:
     EDIT_BTN = (By.XPATH, '//span[@title="Edit"]')
     DELETE_BTN = (By.XPATH, '//span[@title="Delete"]')
 
+class ButtonPageLocators:
+    CLICK_ME_BTN = (By.XPATH, '//button[text()="Click Me"]')
+    RESULT = (By.XPATH, "//p")
+    RIGHT_CLICK_BTN = (By.XPATH, '//button[text()="Right Click Me"]')
+    DOUBLE_CLICK_BTN = (By.XPATH, '//button[text()="Double Click Me"]')
+

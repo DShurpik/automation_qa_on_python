@@ -4,7 +4,7 @@ from basePages.base_test import BaseTest
 from config_reader.config import ConfigProvider
 from generator.generator import person_generator
 from locators.fields import Fields, CheckBoxPageValues, RadioButtonPageValues
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTables
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTables, ButtonPage
 from locators.elements_page_locators import TextBoxPageLocators
 
 
@@ -288,4 +288,38 @@ class Tests(BaseTest):
         result_table = web_tables_page.check_person()
 
         assert person_data not in result_table
+
+    def test_click_lmb(self, driver):
+        button_page = ButtonPage(driver)
+
+        button_page.open('http://85.192.34.140:8081/')
+        button_page.navigate_to(Fields.ELEMENTS)
+        button_page.navigate_to_in_menu_list(Fields.BUTTONS)
+
+        button_page.click_click_me()
+        result = button_page.check_result()
+
+        assert result == 'You have done a dynamic click'
+
+    def test_click_rmb(self, driver):
+        button_page = ButtonPage(driver)
+
+        button_page.open('http://85.192.34.140:8081/')
+        button_page.navigate_to(Fields.ELEMENTS)
+        button_page.navigate_to_in_menu_list(Fields.BUTTONS)
+
+        button_page.click_right_click()
+        result = button_page.check_result()
+        assert result == 'You have done a right click'
+
+    def test_double_click(self, driver):
+        button_page = ButtonPage(driver)
+
+        button_page.open('http://85.192.34.140:8081/')
+        button_page.navigate_to(Fields.ELEMENTS)
+        button_page.navigate_to_in_menu_list(Fields.BUTTONS)
+
+        button_page.double_click()
+        result = button_page.check_result()
+        assert result == 'You have done a double click'
 

@@ -1,13 +1,13 @@
 import random
 
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from generator.generator import person_generator
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-     WebTablesLocators
+    WebTablesLocators, ButtonPageLocators
 from basePages.base_page import BasePage
 
 
@@ -40,6 +40,7 @@ class TextBoxPage(BasePage):
     def click_submit_btn(self):
         self.driver.find_element(*self.locators.SUBMIT_BTN).click()
         return self
+
 
 class CheckBoxPage(BasePage):
     locators = CheckBoxPageLocators()
@@ -147,5 +148,24 @@ class WebTables(BasePage):
         self.driver.find_element(*self.locators.DELETE_BTN).click()
 
 
+class ButtonPage(BasePage):
+    locators = ButtonPageLocators()
 
+    def click_click_me(self):
+        self.driver.find_element(*self.locators.CLICK_ME_BTN).click()
 
+    def click_right_click(self):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.driver.find_element(*self.locators.RIGHT_CLICK_BTN))
+        action.context_click(self.driver.find_element(*self.locators.RIGHT_CLICK_BTN))
+        action.perform()
+
+    def double_click(self):
+        action = ActionChains(self.driver)
+        action.move_to_element(self.driver.find_element(*self.locators.DOUBLE_CLICK_BTN))
+        action.double_click(self.driver.find_element(*self.locators.DOUBLE_CLICK_BTN))
+        action.perform()
+
+    def check_result(self):
+        result = self.driver.find_element(*self.locators.RESULT).text
+        return result

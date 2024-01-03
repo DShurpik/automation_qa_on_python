@@ -4,6 +4,7 @@ class Fields:
     CHECK_BOX = 'Check Box'
     RADIO_BUTTON = 'Radio Button'
     WEB_TABLES = 'Web Tables'
+    BUTTONS = 'Buttons'
 
 
 class CheckBoxPageValues:
